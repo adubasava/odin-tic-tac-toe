@@ -10,3 +10,10 @@
 
     return { board };
 })();
+
+const players = function(player1 = "Player One", player2 = "Player Two") {
+    player1 = { name: player1, marker: "X"};
+    player2 = { name: player2, marker: "O" };
+
+    return { player1, player2 }
+}
