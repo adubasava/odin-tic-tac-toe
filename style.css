@@ -1,1 +1,78 @@
-﻿
+﻿body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: yellow;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 10rem);
+}
+
+button {
+    height: 10rem;
+    background-color: black;   
+    border: none;
+    text-align: center;
+    font-size: 3rem;
+    color: yellow;
+}
+
+#button1, #button4 {
+    border-right: 0.5rem solid yellow;
+    border-bottom: 0.5rem solid yellow;
+}
+
+#button2, #button5 {
+    border-bottom: 0.5rem solid yellow;
+}
+
+#button3, #button6 {
+    border-left: 0.5rem solid yellow;
+    border-bottom: 0.5rem solid yellow;
+}
+
+#button7 {
+    border-right: 0.5rem solid yellow;
+}
+
+#button9 {
+    border-left: 0.5rem solid yellow;
+}
+
+.control {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.control button {
+    font-size: 1.5rem;
+    border: 0.1rem solid yellow;
+    height: 3rem;
+    cursor: pointer;
+}
+
+.player {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.players {
+    color: white;
+    margin-top: 2rem;
+}
+
+input[type=text] {
+    background-color: yellow;
+    margin-right: 1rem;
+    padding-left: 1rem;
+}
