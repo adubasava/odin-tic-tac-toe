@@ -13,7 +13,8 @@
             } else {
                 document.querySelectorAll('.board')[cellNumber].style.color = 'red';
             }
-        }                
+        }
+        renderBoard();                
     };
 
     const renderBoard = () => {
@@ -52,7 +53,7 @@ const gameController = (function() {
         document.querySelector('.player').textContent = `Current player: ${activePlayer.name} (${activePlayer.marker})`;
     }
 
-    const clearBoard = () => {
+    const clearAll = () => {
         for (let i = 0; i < 9; i++) {
             gameBoard.board[i] = 0;
         }  
@@ -67,9 +68,9 @@ const gameController = (function() {
         document.querySelector('.player').textContent = '';
     }
 
-    document.querySelector('#restart').addEventListener('click', clearBoard);
+    document.querySelector('#restart').addEventListener('click', clearAll);
 
-    const isGameOver = () => {
+    const isTie = () => {
     
         let availableCells = gameBoard.board.filter((i) => i === 0);
         if (availableCells.length == 0) {
@@ -119,26 +120,26 @@ const gameController = (function() {
         document.querySelector('.buttons').addEventListener('click', event => {
             gameBoard.makeMove(Number(event.target.dataset.index), activePlayer);
             document.getElementById(event.target.id).disabled = true; 
-            gameBoard.renderBoard();
-            
+
             if (isWinner(activePlayer)) {
                 alert(`${activePlayer.name} won!`);
-                clearBoard();            
-            } 
-
-            switchActivePlayer();
-            getActivePlayer();
-
-            if (isGameOver()) {
+                clearAll();            
+            } else if (isTie()) {
                 alert(`Tie!`);
-                clearBoard();    
-            } 
+                clearAll();    
+            } else {
+                switchActivePlayer();
+                getActivePlayer();
+            }
         });
-
-        switchActivePlayer();   
+        
+        switchActivePlayer(); 
     }
 
-    return { playRound, clearBoard, activePlayer, getActivePlayer };
+    return { playRound, activePlayer, getActivePlayer, clearAll };
 })();
 
-document.querySelector('#start').addEventListener('click', gameController.playRound);
+document.querySelector('#start').addEventListener('click', () => {
+    document.querySelector('#start').disabled = true;
+    gameController.playRound();
+});
