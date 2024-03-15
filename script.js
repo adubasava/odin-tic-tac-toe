@@ -17,19 +17,22 @@
 })();
 
 
-const players = function(player1 = 'Player One', player2 = 'Player Two') {
+const players = function() {
 
-    player1 = { name: player1, marker: 'X'};
-    player2 = { name: player2, marker: 'O'};
+    let name1, name2;
+
+    if (document.querySelector('#player1').value && document.querySelector('#player2').value) {
+        name1 = document.querySelector('#player1').value;
+        name2 = document.querySelector('#player2').value;
+    } else {
+        name1 = 'Player One';
+        name2 = 'Player Two';
+    }
+    const player1 = { name: name1, marker: 'X'};
+    const player2 = { name: name2, marker: 'O'};
 
     return { player1, player2 }
 }
-
-
-/* const players = {
-    player1: { name: 'player1', marker: 'X'},
-    player2: { name: 'player2', marker: 'O'}
-} */
 
 
 const gameController = (function() {   
