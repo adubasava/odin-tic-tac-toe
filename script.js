@@ -8,24 +8,12 @@
     const makeMove = function(cellNumber, player) {
         if (board[cellNumber] === 0) {
             board[cellNumber] = player.marker;
-            if (player.marker === 'X') {
-                document.querySelectorAll('.board')[cellNumber].style.color = 'white';
-            } else {
-                document.querySelectorAll('.board')[cellNumber].style.color = 'red';
-            }
-        }
-        renderBoard();                
+            document.querySelector(`.board:nth-child(${cellNumber+1})`).style.color = player.marker === 'X' ? 'white' : 'red';
+        }       
+       document.querySelector(`.board:nth-child(${cellNumber+1})`).textContent = player.marker;
     };
 
-    const renderBoard = () => {
-        for (let i = 0; i < 9; i++) {
-            if (board[i] !== 0) {
-                document.querySelectorAll('.board')[i].textContent = board[i];
-            };
-        }    
-    }
-
-    return { board, makeMove, renderBoard };
+    return { board, makeMove };
 })();
 
 
@@ -38,18 +26,23 @@ const players = function(player1 = 'Player One', player2 = 'Player Two') {
 }
 
 
+/* const players = {
+    player1: { name: 'player1', marker: 'X'},
+    player2: { name: 'player2', marker: 'O'}
+} */
+
+
 const gameController = (function() {   
 
-    let currentPlayers = players();
+    const { player1, player2 } = players();
 
-    let activePlayer = currentPlayers.player1;
+    let activePlayer = player1;
 
     const switchActivePlayer = () => {
-        activePlayer = activePlayer === currentPlayers.player1 ? currentPlayers.player2 : currentPlayers.player1;
+        activePlayer = activePlayer === player1 ? player2 : player1;
     };
 
-    const getActivePlayer = () => { 
-        activePlayer;     
+    const resetCurrentPlayer = () => { 
         document.querySelector('.player').textContent = `Current player: ${activePlayer.name} (${activePlayer.marker})`;
     }
 
@@ -58,8 +51,8 @@ const gameController = (function() {
             gameBoard.board[i] = 0;
         }  
 
-        getActivePlayer();
-        activePlayer = currentPlayers.player1;
+        resetCurrentPlayer();
+        activePlayer = player1;
     
         document.querySelectorAll('.board').forEach((button) => {
             button.textContent = '';
@@ -70,14 +63,9 @@ const gameController = (function() {
 
     document.querySelector('#restart').addEventListener('click', clearAll);
 
-    const isTie = () => {
-    
+    const isTie = () => {    
         let availableCells = gameBoard.board.filter((i) => i === 0);
-        if (availableCells.length == 0) {
-            return true;
-        }   
-                        
-        return false;
+        return availableCells.length === 0;
     }
 
     const isWinner = (player) => { 
@@ -114,7 +102,7 @@ const gameController = (function() {
 
     const playRound = () => {
 
-        getActivePlayer();
+        resetCurrentPlayer();
         activePlayer = players().player1;
 
         document.querySelector('.buttons').addEventListener('click', event => {
@@ -129,14 +117,14 @@ const gameController = (function() {
                 clearAll();    
             } else {
                 switchActivePlayer();
-                getActivePlayer();
+                resetCurrentPlayer();
             }
         });
         
         switchActivePlayer(); 
     }
 
-    return { playRound, activePlayer, getActivePlayer, clearAll };
+    return { playRound, activePlayer, resetCurrentPlayer, clearAll };
 })();
 
 document.querySelector('#start').addEventListener('click', () => {
