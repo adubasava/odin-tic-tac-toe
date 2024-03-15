@@ -1,4 +1,18 @@
-﻿const gameBoard = (function() {
+﻿const DEFAULT_FIRST_PLAYER_NAME = 'Player One';
+const DEFAULT_SECOND_PLAYER_NAME = 'Player Two';
+
+const player1 = { name: DEFAULT_FIRST_PLAYER_NAME, marker: 'X'}
+const player2 = { name: DEFAULT_SECOND_PLAYER_NAME, marker: 'O'}
+
+document.querySelector('#player1').addEventListener('input', (event) => {
+    player1.name=event.target.value;
+}); 
+
+document.querySelector('#player2').addEventListener('input', (event) => {
+    player2.name=event.target.value;
+});
+
+const gameBoard = (function() {
     const board = [];
     
     for (let i = 0; i < 9; i++) {
@@ -9,35 +23,15 @@
         if (board[cellNumber] === 0) {
             board[cellNumber] = player.marker;
             document.querySelector(`.board:nth-child(${cellNumber+1})`).style.color = player.marker === 'X' ? 'white' : 'red';
+            document.querySelector(`.board:nth-child(${cellNumber+1})`).textContent = player.marker;
         }       
-       document.querySelector(`.board:nth-child(${cellNumber+1})`).textContent = player.marker;
+       
     };
 
     return { board, makeMove };
 })();
 
-
-const players = function() {
-
-    let name1, name2;
-
-    if (document.querySelector('#player1').value && document.querySelector('#player2').value) {
-        name1 = document.querySelector('#player1').value;
-        name2 = document.querySelector('#player2').value;
-    } else {
-        name1 = 'Player One';
-        name2 = 'Player Two';
-    }
-    const player1 = { name: name1, marker: 'X'};
-    const player2 = { name: name2, marker: 'O'};
-
-    return { player1, player2 }
-}
-
-
-const gameController = (function() {   
-
-    const { player1, player2 } = players();
+const gameController = (function() {  
 
     let activePlayer = player1;
 
@@ -106,7 +100,7 @@ const gameController = (function() {
     const playRound = () => {
 
         resetCurrentPlayer();
-        activePlayer = players().player1;
+        activePlayer = player1;
 
         document.querySelector('.buttons').addEventListener('click', event => {
             gameBoard.makeMove(Number(event.target.dataset.index), activePlayer);
@@ -122,9 +116,7 @@ const gameController = (function() {
                 switchActivePlayer();
                 resetCurrentPlayer();
             }
-        });
-        
-        switchActivePlayer(); 
+        });        
     }
 
     return { playRound, activePlayer, resetCurrentPlayer, clearAll };
