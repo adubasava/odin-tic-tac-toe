@@ -106,16 +106,18 @@ const gameController = (function() {
             gameBoard.makeMove(Number(event.target.dataset.index), activePlayer);
             document.getElementById(event.target.id).disabled = true; 
 
-            if (isWinner(activePlayer)) {
-                alert(`${activePlayer.name} won!`);
-                clearAll();            
-            } else if (isTie()) {
-                alert(`Tie!`);
-                clearAll();    
-            } else {
-                switchActivePlayer();
-                resetCurrentPlayer();
-            }
+            setTimeout(function () {
+                if (isWinner(activePlayer)) {
+                    alert(`${activePlayer.name} won!`);
+                    clearAll();            
+                } else if (isTie()) {
+                    alert(`Tie!`);
+                    clearAll();    
+                } else {
+                    switchActivePlayer();
+                    resetCurrentPlayer();
+                }
+            }, 0);
         });        
     }
 
